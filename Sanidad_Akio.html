@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Radar Adaptativo Notion</title>
+    <!-- Importamos Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Por defecto: Color de fondo exacto del Modo Claro de Notion */
+        body {
+            background-color: #ffffff; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        /* MAGIA: Si el sistema está en Modo Oscuro, cambia al fondo oscuro de Notion */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #191919; 
+            }
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        canvas {
+            /* Dejamos que CSS maneje el máximo posible sin desbordar */
+            max-width: 100% !important;
+            max-height: 100% !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chart-container">
+        <canvas id="radarChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('radarChart').getContext('2d');
+        
+        const data = {
+            labels: [
+                'Creatividad',
+                'Investigación',
+                'Diseño Visual',
+                'Desarrollo Técnico',
+                'Gestión'
+            ],
+            datasets: [{
+                data: [8, 6, 7, 5, 7],
+                fill: true,
+                backgroundColor: 'rgba(66, 153, 225, 0.2)',
+                borderColor: 'rgba(66, 153, 225, 1)',
+                pointBackgroundColor: 'rgba(66, 153, 225, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(66, 153, 225, 1)'
+            }]
+        };
+
+        const config = {
+            type: 'radar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                layout: {
+                    padding: {
+                        top: 20,
+                        bottom: 30,
+                        left: 30,
+                        right: 30
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: 'rgba(128, 128, 128, 0.3)' // Líneas internas sutiles
+                        },
+                        grid: {
+                            color: 'rgba(128, 128, 128, 0.3)' // Telaraña interna sutil
+                        },
+                        pointLabels: {
+                            color: '#888888', // Un color gris medio para que se lea bien en fondos claros o oscuros
+                            font: {
+                                size: 13,
+                                family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto'
+                            }
+                        },
+                        ticks: {
+                            color: '#888888',
+                            backdropColor: 'transparent',
+                            stepSize: 2
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
+                }
+            }
+        };
+
+        const radarChart = new Chart(ctx, config);
+    </script>
+</body>
+</html>
